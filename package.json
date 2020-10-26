@@ -1,0 +1,27 @@
+{
+  "name": "Controle-de-ACGs",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "devDependencies": {
+    "@types/code": "^4.0.5",
+    "@types/node": "^8.10.65",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint": "^7.11.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^3.3.3333"
+  },
+  "dependencies": {
+    "apollo-server": "^2.18.2",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.3.0",
+    "pg": "^7.3.0",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "0.2.28"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.ts",
+    "build": "ts-node ./src -d ./dist --transforms typescript,imports",
+    "start": "ts-node src/index.ts"
+  }
+}
