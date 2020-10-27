@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-@Entity("tbl_alunos")
-export class Aluno extends BaseEntity {
+@Entity("tbl_cursos")
+export class Curso extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -9,12 +9,5 @@ export class Aluno extends BaseEntity {
   nome: string;
 
   @Column()
-  matricula: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  senha: string;
-
+  codigo: string;
 }
