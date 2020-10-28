@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { RegraAcg } from "../regrasAcg/RegrasAcgModels";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { Aluno } from "../alunos/alunosModels";
 
 @Entity("tbl_lancamentos")
 export class Lancamento extends BaseEntity {
@@ -7,7 +14,7 @@ export class Lancamento extends BaseEntity {
   id: number;
 
   @Column()
-  regra_acg: RegraAcg;
+  regra_acg: string;
 
   @Column()
   carga_horaria_real: number;
@@ -26,4 +33,8 @@ export class Lancamento extends BaseEntity {
 
   @Column()
   descricao: string;
+
+  @ManyToOne((type) => Aluno)
+  @JoinColumn({ name: "aluno_id" })
+  aluno: Aluno;
 }

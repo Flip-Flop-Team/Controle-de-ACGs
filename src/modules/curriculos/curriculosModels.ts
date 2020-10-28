@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToMany,
+} from "typeorm";
+import { Curso } from "../cursos/cursosModels";
 
 @Entity("tbl_curriculos")
 export class Curriculo extends BaseEntity {
@@ -10,4 +17,7 @@ export class Curriculo extends BaseEntity {
 
   @Column()
   carga_horaria: number;
+
+  @ManyToMany((type) => Curso, (curso) => curso.curriculos)
+  cursos: Curso[];
 }

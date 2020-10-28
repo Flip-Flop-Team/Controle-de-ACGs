@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+  JoinTable,
+  JoinColumn,
+} from "typeorm";
+import { Curso } from "../cursos/cursosModels";
 
 @Entity("tbl_alunos")
 export class Aluno extends BaseEntity {
@@ -17,4 +26,7 @@ export class Aluno extends BaseEntity {
   @Column()
   senha: string;
 
+  @ManyToOne((type) => Curso)
+  @JoinColumn({ name: "curso_id" })
+  curso: Curso;
 }
