@@ -4,10 +4,10 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
-  JoinTable,
   JoinColumn,
 } from "typeorm";
 import { Curso } from "../cursos/cursosModels";
+import { Curriculo } from "../curriculos/curriculosModels";
 
 @Entity("tbl_alunos")
 export class Aluno extends BaseEntity {
@@ -29,4 +29,8 @@ export class Aluno extends BaseEntity {
   @ManyToOne((type) => Curso)
   @JoinColumn({ name: "curso_id" })
   curso: Curso;
+
+  @ManyToOne((type) => Curriculo)
+  @JoinColumn({ name: "curriculo_id" })
+  curriculo: Curriculo;
 }

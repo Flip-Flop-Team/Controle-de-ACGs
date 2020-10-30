@@ -1,4 +1,4 @@
-import { RegraAcg } from "./RegrasAcgModels";
+import { Atividade } from "./atividadesModels";
 
 // function doesPathExist(nodes, path) {
 //   if (!nodes) {
@@ -20,13 +20,16 @@ import { RegraAcg } from "./RegrasAcgModels";
 
 export default {
   Query: {
-    regrasAcg: async (): Promise<RegraAcg[]> => {
-      return await RegraAcg.find();
+    atividades: async (): Promise<Atividade[]> => {
+      return await Atividade.find();
     },
   },
   Mutation: {
-    createRegraAcg: async (_: undefined, data: RegraAcg): Promise<RegraAcg> => {
-      return await RegraAcg.create({ ...data }).save();
+    createAtividade: async (
+      _: undefined,
+      data: Atividade
+    ): Promise<Atividade> => {
+      return await Atividade.create({ ...data }).save();
     },
   },
 };

@@ -7,14 +7,16 @@ import {
   JoinColumn,
 } from "typeorm";
 import { Aluno } from "../alunos/alunosModels";
+import { Regra } from "../regras/regrasModels";
 
 @Entity("tbl_lancamentos")
 export class Lancamento extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  regra_acg: string;
+  @ManyToOne((type) => Regra)
+  @JoinColumn({ name: "regra_id" })
+  regra: string;
 
   @Column()
   carga_horaria_real: number;

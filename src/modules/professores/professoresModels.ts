@@ -37,5 +37,5 @@ export class Professor extends BaseEntity {
       referencedColumnName: "id",
     },
   })
-  cursos: Professor[];
+  cursos: Curso[];
 }

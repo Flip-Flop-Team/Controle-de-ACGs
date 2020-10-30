@@ -1,51 +1,62 @@
 import { Professor } from "./professoresModels";
-import { UserInputError } from "apollo-server";
-import { UpdateResult } from "typeorm";
-// function doesPathExist(nodes, path) {
-//   if (!nodes) {
-//     return false;
-//   }
+import { Curso } from "../cursos/cursosModels";
+import { In, ObjectID } from "typeorm";
 
-//   const node = nodes.find((x) => x.name.value === path[0]);
-
-//   if (!node) {
-//     return false;
-//   }
-
-//   if (path.length === 1) {
-//     return true;
-//   }
-
-//   return doesPathExist(node.selectionSet.selections, path.slice(1));
-// }
-
+interface IProfessorInput {
+  nome: string;
+  codigo: string;
+  email: string;
+  senha: string;
+  cursos: number[];
+}
 interface IEditProfessor {
-  id: number;
   nome?: string;
   codigo?: string;
   email?: string;
   senha?: string;
+  cursos?: number[];
+}
+
+interface IEditProfessorInput {
+  id: number;
+  data: IEditProfessor;
 }
 
 export default {
   Query: {
-    professor: async (_: undefined, id: any): Promise<Professor> => {
-      return await Professor.findOne({ id: id.id });
-    },
+    professor: (_: undefined, id: ObjectID): Promise<Professor> =>
+      Professor.findOne(id),
+    professores: (): Promise<Professor[]> => Professor.find(),
   },
   Mutation: {
-    createProfessor: async (_: undefined, input: any): Promise<Professor> => {
-      const data: Record<string, any> = input.data;
-      return await Professor.create(data).save();
+    createProfessor: async (
+      _: undefined,
+      data: IProfessorInput
+    ): Promise<Professor> => {
+      const cursos = await Curso.find({ where: In(data.cursos) });
+      return Professor.create({ ...data, cursos }).save();
     },
     editProfessor: async (
       _: undefined,
-      data: IEditProfessor
-    ): Promise<UpdateResult> => {
-      if (!Object.prototype.hasOwnProperty.call(data, "oi"))
-        throw new UserInputError("Id expected!");
-      const { id } = data;
-      return await Professor.update({ id }, data);
+      input: IEditProfessorInput
+    ): Promise<Professor> => {
+      const professor = await Professor.findOne(input.id);
+      Object.keys(input.data).map((key: string) => {
+        professor[key] = input.data[key];
+      });
+      if (input.data.cursos) {
+        await Curso.delete(input.data.cursos);
+        const cursos = [];
+        input.data.cursos.forEach((id: number) =>
+          Curso.findOne(id).then((curso: Curso) => cursos.push(curso))
+        );
+        professor.cursos = cursos;
+      }
+      return Professor.save(professor);
+    },
+    deleteProfessor: async (_: undefined, id: number): Promise<number> => {
+      const deleteResult = await Professor.delete(id);
+      return deleteResult.affected || 0;
     },
   },
 };

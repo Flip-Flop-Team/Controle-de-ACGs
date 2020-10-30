@@ -1,15 +1,25 @@
 import { gql } from "apollo-server";
-
 export default gql`
-  type Curso {
+  scalar Date
+
+  type Lancamento {
     id: ID!
-    regra_acg: RegraAcg!
+    regra: Regra!
     carga_horaria_real: Float!
     carga_horaria_acg: Float!
-    data_inicio: DateTime!
-    data_fim: DateTime!
+    data_inicio: Date!
+    data_fim: Date!
     arquivo: String!
-    descricao: String!;
+    descricao: String!
+  }
+  input LancamentoInput {
+    regra: Int!
+    carga_horaria_real: Float!
+    carga_horaria_acg: Float!
+    data_inicio: Date!
+    data_fim: Date!
+    arquivo: String!
+    descricao: String!
   }
   extend type Query {
     lancamentos: [Lancamento!]!
