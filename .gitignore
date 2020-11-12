@@ -1,0 +1,13 @@
+.vscode
+env
+vp6-env
+__pycache__/
+*.__pycache__/
+*.pyc
+mydata
+media
+debug.log
+logs
+db.sql
+.rabbitmq
+.python-version
