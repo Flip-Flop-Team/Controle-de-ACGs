@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from controle_acg.utils import genericViewSet
 from .models import *
+from app import views
 
 router = DefaultRouter()
 
@@ -15,4 +16,8 @@ router.register('lancamento', genericViewSet(Lancamento))
 router.register('professor-curso', genericViewSet(ProfessorCurso))
 router.register('regra', genericViewSet(Regra))
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('register-user/', views.registerUser, name='register_user'),
+]
+
+urlpatterns += router.urls

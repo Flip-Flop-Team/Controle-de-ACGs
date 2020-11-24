@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Professor(models.Model):
-    user = models.ForeignKey(User, models.DO_NOTHING)
+    user = models.OneToOneField(User, models.CASCADE)
     nome = models.CharField(max_length=100)
     codigo = models.CharField(max_length=100)
 
@@ -11,11 +11,11 @@ class Professor(models.Model):
         db_table = 'tbl_professores'
 
 class Aluno(models.Model):
-    user = models.ForeignKey(User, models.DO_NOTHING)
+    user = models.OneToOneField(User, models.CASCADE)
     nome = models.CharField(max_length=100)
     matricula = models.CharField(max_length=100)
     curso = models.ForeignKey('Curso', models.DO_NOTHING)
-    curriculo = models.ForeignKey('Curriculo', models.DO_NOTHING)
+    curriculo = models.ForeignKey('Curriculo', models.DO_NOTHING, null=True, blank=True)
 
     class Meta:
         db_table = 'tbl_alunos'
