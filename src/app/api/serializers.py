@@ -8,9 +8,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super(CustomTokenObtainPairSerializer, self).validate(attrs)
         # Custom data you want to include
         if hasattr(self.user, 'aluno'):
-            data.update({'tipo': 'aluno', 'id': self.user.id})
+            data.update({'tipo': 'aluno', 'id': self.user.id, 'aluno': self.user.aluno.id})
         elif hasattr(self.user, 'professor'):
-            data.update({'tipo': 'professor', 'id': self.user.id})
+            data.update({'tipo': 'professor', 'id': self.user.id, 'professor': self.user.professor.id})
         else:
             data.update({'tipo': 'error'})
         # and everything else you want to send in the response

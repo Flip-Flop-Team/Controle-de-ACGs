@@ -44,6 +44,7 @@ class Curso(models.Model):
         db_table = 'tbl_cursos'
 
 class Lancamento(models.Model):
+    aprovado = models.BooleanField(null=True, blank=True)
     data_inicio = models.DateField()
     data_fim = models.DateField()
     arquivo = models.CharField(max_length=100)
@@ -52,6 +53,8 @@ class Lancamento(models.Model):
     descricao = models.CharField(max_length=500)
     aluno = models.ForeignKey('Aluno', models.DO_NOTHING)
     regra = models.ForeignKey('Regra', models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    comentario = models.CharField(max_length=500, null=True, blank=True)
     
     class Meta:
         db_table = 'tbl_lancamentos'
