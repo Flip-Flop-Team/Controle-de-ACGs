@@ -18,17 +18,17 @@ def registerUser(request):
 
     # Verify fields sended
     if not set(required_fields).issubset(list(body.keys())):
-        return JsonResponse({'error': True, 'message': 'Faltam campos no cadastro'}, json_dumps_params={'ensure_ascii': False})
+        return JsonResponse({'error': True, 'message': 'Faltam campos no cadastro'}, json_dumps_params={'ensure_ascii': False}, status=500)
     if body['type'] == 'professor':
         tipo = 'professor'
         if not set(professor_required_fields).issubset(list(body.keys())):
-            return JsonResponse({'error': True, 'message': 'Faltam campos no cadastro'}, json_dumps_params={'ensure_ascii': False})
+            return JsonResponse({'error': True, 'message': 'Faltam campos no cadastro'}, json_dumps_params={'ensure_ascii': False}, status=500)
     elif body['type'] == 'aluno':
         tipo = 'aluno'
         if not set(aluno_required_fields).issubset(list(body.keys())):
-            return JsonResponse({'error': True, 'message': 'Faltam campos no cadastro'}, json_dumps_params={'ensure_ascii': False})
+            return JsonResponse({'error': True, 'message': 'Faltam campos no cadastro'}, json_dumps_params={'ensure_ascii': False}, status=500)
     else:
-        return JsonResponse({'error': True, 'message': 'Tipo inválido'}, json_dumps_params={'ensure_ascii': False})
+        return JsonResponse({'error': True, 'message': 'Tipo inválido'}, json_dumps_params={'ensure_ascii': False}, status=500)
 
     #User
     user = User(email=body['email'], username=body['email'])
@@ -47,12 +47,12 @@ def registerUser(request):
                 curso = Curso.objects.get(pk=body['curso'])
             except Exception as err:
                 user.delete()
-                return JsonResponse({'error': True, 'message': 'Curso inválido'}, json_dumps_params={'ensure_ascii': False})
+                return JsonResponse({'error': True, 'message': 'Curso inválido'}, json_dumps_params={'ensure_ascii': False}, status=500)
             aluno = Aluno(nome=body['nome'], user=user, matricula=body['matricula'], curso=curso)
             aluno.save()
     except Exception as err:
         user.delete()
-        return JsonResponse({'error': True, 'message': str(err)})
+        return JsonResponse({'error': True, 'message': str(err)}, status=500)
 
     return JsonResponse({'error': False, 'message': 'Sucesso'}, json_dumps_params={'ensure_ascii': False})
 

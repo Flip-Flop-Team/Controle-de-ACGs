@@ -30,6 +30,7 @@ class Atividade(models.Model):
 class Curriculo(models.Model):
     carga_horaria = models.IntegerField()
     codigo = models.CharField(max_length=100)
+    cursos = models.ManyToManyField('Curso')
     
     class Meta:
         db_table = 'tbl_curriculos'
@@ -37,16 +38,10 @@ class Curriculo(models.Model):
 class Curso(models.Model):
     nome = models.CharField(max_length=100)
     codigo = models.CharField(max_length=100)
+    curriculos = models.ManyToManyField('Curriculo', through=Curriculo.cursos.through, blank=True)
     
     class Meta:
         db_table = 'tbl_cursos'
-
-class CursoCurriculo(models.Model):
-    Curriculo = models.ForeignKey('Curriculo', models.DO_NOTHING)
-    curso = models.ForeignKey('Curso', models.DO_NOTHING)
-    
-    class Meta:
-        db_table = 'tbl_cursos_curriculos'
 
 class Lancamento(models.Model):
     data_inicio = models.DateField()
